@@ -13,11 +13,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CancellationTokenCancelAfte
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CancellationTokenRegisterConsole", "CancellationTokenRegisterConsole\CancellationTokenRegisterConsole.csproj", "{EBC27BF8-9150-4120-9028-BA89A31D1470}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CancellationTokenApiCreateLinkedToken", "CancellationTokenApiCreateLinkedToken\CancellationTokenApiCreateLinkedToken.csproj", "{CF4C248D-9531-48BC-ACE4-26B1FB599482}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CancellationTokenApiCreateLinkedToken", "CancellationTokenApiCreateLinkedToken\CancellationTokenApiCreateLinkedToken.csproj", "{CF4C248D-9531-48BC-ACE4-26B1FB599482}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2F03CD9A-4ABF-4E1A-BDA8-034845EB98A8}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		README.md = README.md
 	EndProjectSection
 EndProject
 Global
