@@ -228,8 +228,10 @@ _**Fernando Cerequeira**_
 ## Referências
 
 **CancellationToken** :
+
 https://learn.microsoft.com/en-us/dotnet/api/system.threading.cancellationtoken?view=net-8.0
 
 **CancellationTokenSource** : 
+
 https://learn.microsoft.com/pt-br/dotnet/api/system.threading.cancellationtokensource?view=net-8.0
 
