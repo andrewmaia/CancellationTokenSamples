@@ -1,0 +1,6 @@
+@CancellationTokenApiCreateLinkedToken_HostAddress = http://localhost:5159
+
+GET {{CancellationTokenApiCreateLinkedToken_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
