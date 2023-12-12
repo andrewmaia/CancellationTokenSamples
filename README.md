@@ -56,19 +56,19 @@ Neste exemplo é feito uma chamada a outro “Endpoint” (que demora 10 segundos par
 
 **Exemplo: Acessando outra dependência de api (Tarefa não cancelável) e com CancellationToken:**
 
-Para testar use a aplicação “CancellationTokenApiSample” e chame o ‘Endpoint’  “CallCT /HelloWord’ em seguida execute um refresh no browser; esta ação interrompe a conexão e ativa a solicitação de cancelamento. 
+Para testar use a aplicação **“CancellationTokenApiSample”** e chame o ‘Endpoint’  “CallCT /HelloWord’ em seguida execute um refresh no browser; esta ação interrompe a conexão e ativa a solicitação de cancelamento. 
 
 Neste exemplo é feito uma chamada a outro “Endpoint” (que demora 10 segundos para recuperar a informação) . Como tem a declaração de cancelamento  e a dependência não é uma tarefa cancelável a execução continua até o final na dependência sem ser interrompida e é interrompida na api. (Veja os tempos)
 
 **Exemplo: Acessando outra dependência de api (Tarefa cancelável) e com CancellationToken:**
 
-Para testar use a aplicação “CancellationTokenApiSample” e chame o ‘Endpoint’  “CallCT / HelloWordCancelation” em seguida execute um refresh no browser; esta ação interrompe a conexão e ativa a solicitação de cancelamento. 
+Para testar use a aplicação **“CancellationTokenApiSample”** e chame o ‘Endpoint’  “CallCT / HelloWordCancelation” em seguida execute um refresh no browser; esta ação interrompe a conexão e ativa a solicitação de cancelamento. 
 
 Neste exemplo e feito uma chamada a outro “Endpoint” (que demora 10 segundos para recuperar a informação). Como tem a declaração de cancelamento  e a dependência é uma tarefa cancelável a execução é interrompida na api e na dependência. (Veja os tempos)
 
 **Exemplo: Acessando um banco de dados (Tarefa não cancelável) e sem CancellationToken:**
 
-Para testar use a aplicação “CancellationTokenApiSample” e chame o ‘Endpoint’  “Call/OpenDb” em seguida execute um refresh no browser; esta ação interrompe a conexão e ativa a solicitação de cancelamento. 
+Para testar use a aplicação **“CancellationTokenApiSample”** e chame o ‘Endpoint’  “Call/OpenDb” em seguida execute um refresh no browser; esta ação interrompe a conexão e ativa a solicitação de cancelamento. 
 
 Neste exemplo e feito um acesso ao um banco de dados abrindo e fechando a conexão. Para simular um atraso, a conexão aponta para um endereço “errado” para tentar 6 vezes.  Quando ocorre o a solicitação de cancelamento a consulta ao banco continua .(veja o tempo)
 
@@ -143,7 +143,7 @@ O que faz o método Cancel? Comunica uma solicitação de cancelamento, em outras p
 
 **Exemplo: CancellationTokenSource – Método Cancel** 
 
-Para testar use a aplicação “CancellationTokenCancelConsole” , siga as instruções que apareceram no console e acompanhe o log. 
+Para testar use a aplicação **“CancellationTokenCancelConsole”** , siga as instruções que apareceram no console e acompanhe o log. 
 
 Neste exemplo temos um serviço em background que inicia duas tarefas assíncronas: 
 - TaskUI: Responsável  pela interação do console para enviar um comando de processar mensagens  ou uma solicitação de cancelamento e encerrar a aplicação. 
@@ -181,14 +181,11 @@ Neste exemplo temos um serviço em background que inicia uma tarefa assíncrona qu
 
 No mundo real nem tudo é tão simples e muita das vezes precisamos implementar regras mais complexas que requer **mais de uma única fonte de cancelamento**. Vamos a um cenário real:
 
-Você possui um método que já recebe um CancellationToken vindo de um “request” . Isso é ótimo , você pode controlar quando a conexão é perdida e interromper o processo. 
-
-Agora imagina que este método além de interromper quando a conexão é perdida interrompa também quando ultrapasse um tempo limite ou ainda pior quando uma regra de negócio não seja atendida durante seu processamento, o que acontecer primeiro. “Sacou o drama ?”, nesta hora entra em cena outra classe :
+_Você possui um método que já recebe um CancellationToken vindo de um “request” . Isso é ótimo , você pode controlar quando a conexão é perdida e interromper o processo. 
+Agora imagina que este método além de interromper quando a conexão é perdida interrompa também quando ultrapasse um tempo limite ou ainda pior quando uma regra de negócio não seja atendida durante seu processamento, o que acontecer primeiro. “Sacou o drama ?”, nesta hora entra em cena outra classe :_
 
 
 **CreateLinkedToken**:  É uma classe desenhada para ser uma **fonte de notificação de cancelamento** controlado pela aplicação que **unifica vários tokens de cancelamento em uma única solicitação de cancelamento**. 
-
-Tem a mesma função: informar que não é mais necessário continuar uma tarefa, fornecendo um mecanismo para cancelamento cooperativo de operações assíncrona e propagando a informação de solicitação de cancelamento por todas as tarefas que a utilizam. 
 
 _**Nota: Esta classe implementa a interface IDisposable então lembre-se de utilizar o método Dispose() quando não for mais necessário ou encapsular sua utilização em um bloco de “using”.**_
 
@@ -221,7 +218,7 @@ A aplicação **“CancellationTokenApiCreateLinkedToken”** (**SampleController.cs**
 _**Nota : Para verificar que isso acontece de fato é necessário colocar um breakpoint e acompanhar a execução.**_
 
 ## Conclusão
-CancellationToken é um instrumento poderoso para otimizar o uso de recursos , tornando sua aplicação muito mais resiliente e rápida, aproveita corretamente os recursos de Infraestrutura/Midllewares. 
+**CancellationToken** é um instrumento poderoso para otimizar o uso de recursos , tornando sua aplicação muito mais resiliente e rápida, aproveita corretamente os recursos de Infraestrutura/Midllewares. 
 
 Existem muitos outros cenários (e métodos) que podem ser explorados , mas tornaria bem mais extenso este artigo que o desejado. Espero que com este “overview” e com os códigos disponibilizados no projeto exemplo,  você possa aproveitar melhor o CancellationToken!
 
