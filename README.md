@@ -78,7 +78,7 @@ Para testar use a aplicação “CancellationTokenApiSample” e chame o ‘Endpoint’  “
 
 Neste exemplo e feito um acesso ao um banco de dados abrindo e fechando a conexão. Para simular um atraso a conexão aponta para um endereço “errado” para tentar 6 vezes.  Quando ocorre o a solicitação de cancelamento a consulta ao banco é interrompida .(veja o tempo)
 
-## Tornando uma Tarefa/Função “Cancelável”
+## Tornando uma Tarefa/Função com temporização “Cancelável” 
 Nos exemplos anteriores é feito chamadas a dois “Endpoint” diferentes 
 - /HelloWord (tarefa **não** cancelável)
 - /HelloWordCancelation (tarefa cancelável)
@@ -177,7 +177,7 @@ Para testar use a aplicação **“CancellationTokenRegisterConsole”** siga as instr
 
 Neste exemplo temos um serviço em background que inicia uma tarefa assíncrona que processa a mensagem. Antes de iniciar o “loop”  é feito um registro de uma ‘action’ para ser executada  quando ocorrer o cancelamento. Esta ‘action’ executa o fim da aplicação que por sua vez envia uma solicitação de cancelamento e encerra o “loop”.
 
-## Tornando uma tarefa “Cancelável” associada a uma ou mais regras de negócio / solicitações de cancelamentos
+## Tornando uma tarefa “Cancelável” associada a uma ou mais regras de negócio
 
 No mundo real nem tudo é tão simples e muita das vezes precisamos implementar regras mais complexas que requer **mais de uma única fonte de cancelamento**. Vamos a um cenário real:
 

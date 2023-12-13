@@ -22,7 +22,7 @@ namespace CancellationTokenApiCreateLinkedToken.Controllers
             }
             ctstimout.CancelAfter(10000);
             var sw = Stopwatch.StartNew();
-            var hastimeout = false;
+            var hascancel = false;
             if (lnkcts.Token.WaitHandle.WaitOne(tm))
             {
                 if (token.IsCancellationRequested)
@@ -33,14 +33,14 @@ namespace CancellationTokenApiCreateLinkedToken.Controllers
                 {
                     logger.LogInformation($"Hello Word has timeout {sw.Elapsed}");
                 }
-                hastimeout = true;
+                hascancel = true;
             }
             else
             {
                 logger.LogInformation($"Hello Word after {sw.Elapsed}");
             }
             sw.Stop();
-            if (hastimeout)
+            if (hascancel)
             {
                 return await Task.FromResult(TypedResults.NoContent());
             }
