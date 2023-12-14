@@ -9,7 +9,7 @@ Falar de **concorrência** é ter consciência que várias tarefas são executad
 
 De um modo geral (minha opinião) **falhamos miseravelmente em criar aplicações / bibliotecas e funcionalidades que fazem bom uso de recursos!**
 
-**A "nuvem" até pode ser “infinita”, mas certamente o cartão de crédito e sua infraestrutura NÃO!**=
+**A "nuvem" até pode ser “infinita”, mas certamente o cartão de crédito e sua infraestrutura NÃO!**
 
 > **CancellationToken** é um componente desenhado para **informar** que não é mais necessário continuar uma tarefa, fornecendo um mecanismo para cancelamento cooperativo de operações assíncrona e **propagando** a informação de solicitação de cancelamento por todas as tarefas que a utilizam.
 
@@ -251,7 +251,7 @@ Você possui um método que já recebe um **CancellationToken** vindo de um “r
 
 _Para testar use a_ **_aplicação “CancellationTokenApiCreateLinkedToken”_** _e chame o ‘Endpoint’ **“Call/HelloWordWithTimeout?timeout=true”** e aguarde o resultado (será um timeout com status 499). Em seguida chame o mesmo ‘Endpoint’ e **_execute um refresh no browser; esta ação interrompe a conexão e ativa a solicitação de cancelamento.** (Acompanhe log)
 
-Neste exemplo é feito uma chamada a outro “Endpoint” (que demora 10 segundos para recuperar a informação ) . antes da execução  é criando um **CancellationTokenSource**  e um **CreateLinkedTokenSource**  utilizando o **CancellationToken do request e o CancellationTokenSource.  **
+Neste exemplo é feito uma chamada a outro “Endpoint” (que demora 10 segundos para recuperar a informação ) . antes da execução  é criando um **CancellationTokenSource**  e um **CreateLinkedTokenSource**  utilizando o **CancellationToken do request e o CancellationTokenSource.**
 
 É  simulado uma **espera maior de que o tempo máximo definido** para demostrar o  timeout.
 
@@ -270,7 +270,7 @@ Para finalizar vou falar de outro **aspecto fundamental** **e muito relevante** 
 
 _"Você trabalha em uma empresa de comércio eletrônico/banco que possui um gateway interno para fazer a comunicações entre as diversas apis. Além de rotear estas comunicações é gerado um log de infraestrutura com os tempos e status de cada requisição para uma análise pelo time de produtos e estratégia da empresa."_
 
-Quando ocorre um cancelamento por parte do cliente **se você não escolher um status correto** as **_métricas de status ficarão “poluídas”**,  podendo induzir a análise não precisa e **"enganosa"** mesmo que **funcionalmente não tenha erros!.**
+Quando ocorre um cancelamento por parte do cliente **se você não escolher um status correto** as **métricas de status ficarão “poluídas”**,  podendo induzir a análise não precisa e **"enganosa"** mesmo que **funcionalmente não tenha erros!.**
 
 * * *
 
