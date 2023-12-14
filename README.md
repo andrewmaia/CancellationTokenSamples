@@ -1,177 +1,177 @@
-# CancellationToken - O que você precisa e deveria saber antes de usar
+# CancellationToken - O que vocÃª precisa e deveria saber antes de usar
 
 
-No mundo moderno da engenharia de software os processos , atividades e dependências ocorrem a todo o momento de forma **concorrente**!
+No mundo moderno da engenharia de software os processos , atividades e dependÃªncias ocorrem a todo o momento de forma **concorrente**!
 
-Falar de **concorrência** é ter consciência que várias tarefas são executadas simultaneamente e/ou concorrentes com os ciclos/processadores disponíveis e que estes **recursos são finitos e/ou tem custos associados à sua utilização.**
+Falar de **concorrÃªncia** Ã© ter consciÃªncia que vÃ¡rias tarefas sÃ£o executadas simultaneamente e/ou concorrentes com os ciclos/processadores disponÃ­veis e que estes **recursos sÃ£o finitos e/ou tem custos associados Ã  sua utilizaÃ§Ã£o.**
 
->  Obter performance é bem mais sobre **saber trabalhar** com **concorrência** e como **usar de forma consciente os recursos** que sobre saber aplicar padrões arquiteturais.
+> Â Obter performance Ã© bem mais sobre **saber trabalhar** com **concorrÃªncia** e como **usar de forma consciente os recursos** que sobre saber aplicar padrÃµes arquiteturais.
 
-De um modo geral (minha opinião) **falhamos miseravelmente em criar aplicações / bibliotecas e funcionalidades que fazem bom uso de recursos!**
+De um modo geral (minha opiniÃ£o) **falhamos miseravelmente em criar aplicaÃ§Ãµes / bibliotecas e funcionalidades que fazem bom uso de recursos!**
 
-**A "nuvem" até pode ser “infinita”, mas certamente o cartão de crédito e sua infraestrutura NÃO!**=
+**A "nuvem" atÃ© pode ser â€œinfinitaâ€, mas certamente o cartÃ£o de crÃ©dito e sua infraestrutura NÃƒO!**=
 
-> **CancellationToken** é um componente desenhado para **informar** que não é mais necessário continuar uma tarefa, fornecendo um mecanismo para cancelamento cooperativo de operações assíncrona e **propagando** a informação de solicitação de cancelamento por todas as tarefas que a utilizam.
+> **CancellationToken** Ã© um componente desenhado para **informar** que nÃ£o Ã© mais necessÃ¡rio continuar uma tarefa, fornecendo um mecanismo para cancelamento cooperativo de operaÃ§Ãµes assÃ­ncrona e **propagando** a informaÃ§Ã£o de solicitaÃ§Ã£o de cancelamento por todas as tarefas que a utilizam.
 
 **Alguns aspectos importantes:**
 
-> O cancelamento **não é imposto/forçado é uma solicitação!** As tarefas **podem e devem** determinar como e quando encerrar em resposta a uma solicitação de cancelamento.
+> O cancelamento **nÃ£o Ã© imposto/forÃ§ado Ã© uma solicitaÃ§Ã£o!** As tarefas **podem e devem** determinar como e quando encerrar em resposta a uma solicitaÃ§Ã£o de cancelamento.
 
-**Não existe mágica**, o **CancellationToken** não faz nada além de informar uma solicitação de cancelamento, _isso é muito importante._
+**NÃ£o existe mÃ¡gica**, o **CancellationToken** nÃ£o faz nada alÃ©m de informar uma solicitaÃ§Ã£o de cancelamento, _isso Ã© muito importante._
 
->  A solicitação de **cancelamento refere-se sempre a operações e não a objetos**, em outras palavras, devemos criar “**operações canceláveis**” para poder tirar proveito do CancellationToken.
+> Â A solicitaÃ§Ã£o de **cancelamento refere-se sempre a operaÃ§Ãµes e nÃ£o a objetos**, em outras palavras, devemos criar â€œ**operaÃ§Ãµes cancelÃ¡veis**â€ para poder tirar proveito do CancellationToken.
 
-O **CancellationToken** informa, e você precisa e deve saber o que fazer com esta solicitação utilizando **componentes adequados**, _isso é ainda mais importante!_
+O **CancellationToken** informa, e vocÃª precisa e deve saber o que fazer com esta solicitaÃ§Ã£o utilizando **componentes adequados**, _isso Ã© ainda mais importante!_
 
-> **Operações canceláveis** são tarefas que escolhem uma **estratégia de como encerrar e como responder** a uma solicitação de cancelamento. Normalmente, executam alguma limpeza necessária e respondem o mais **breve possível**.
+> **OperaÃ§Ãµes cancelÃ¡veis** sÃ£o tarefas que escolhem uma **estratÃ©gia de como encerrar e como responder** a uma solicitaÃ§Ã£o de cancelamento. Normalmente, executam alguma limpeza necessÃ¡ria e respondem o mais **breve possÃ­vel**.
 
-**Novamente não existe mágica**, o que precisa ser feito após o recebimento da solicitação de cancelamento deve estar bem definido e **alinhado com as regras de negócio e os componentes utilizados**.
+**Novamente nÃ£o existe mÃ¡gica**, o que precisa ser feito apÃ³s o recebimento da solicitaÃ§Ã£o de cancelamento deve estar bem definido e **alinhado com as regras de negÃ³cio e os componentes utilizados**.
 
-Além disso a implementação **devem ter suporte para este tipo de operação**. _Isso é mais que importante é fundamental!_
+AlÃ©m disso a implementaÃ§Ã£o **devem ter suporte para este tipo de operaÃ§Ã£o**. _Isso Ã© mais que importante Ã© fundamental!_
 
-**_Mas_ como sei que foi enviado solicitação de cancelamento?**
+**_Mas_ como sei que foi enviado solicitaÃ§Ã£o de cancelamento?**
 
-> **_Através da propriedade IsCancellationRequested_**
+> **_AtravÃ©s da propriedade IsCancellationRequested_**
 
 **Duas notas antes de continuar**:
 
-* Esta repo demostra apenas o **CancellationToken,** o uso de tarefas assíncronas (Async / await) não estão dentro deste escopo.
+* Esta repo demostra apenas o **CancellationToken,** o uso de tarefas assÃ­ncronas (Async / await) nÃ£o estÃ£o dentro deste escopo.
   
-* Todos os exemplos apresentados são **apenas didáticos e necessariamente não representam as melhores prática**.
+* Todos os exemplos apresentados sÃ£o **apenas didÃ¡ticos e necessariamente nÃ£o representam as melhores prÃ¡tica**.
   
 
-Tornando sua Api “Cancelável”
+Tornando sua Api â€œCancelÃ¡velâ€
 -----------------------------
 
-Quando uma solicitação de “request” é enviada para sua api, é mantida uma conexão entre as duas partes envolvidas (quem está consumindo / quem está processando a solicitação).
+Quando uma solicitaÃ§Ã£o de â€œrequestâ€ Ã© enviada para sua api, Ã© mantida uma conexÃ£o entre as duas partes envolvidas (quem estÃ¡ consumindo / quem estÃ¡ processando a solicitaÃ§Ã£o).
 
-**O que acontece se a parte que solicitou abandonar a solicitação?** A conexão é perdida e o processamento **continua na sua api**! (desperdício de processamento , recursos de Infraestrutura/Midllewares e os custos associados : financeiros e performance).  
+**O que acontece se a parte que solicitou abandonar a solicitaÃ§Ã£o?** A conexÃ£o Ã© perdida e o processamento **continua na sua api**! (desperdÃ­cio de processamento , recursos de Infraestrutura/Midllewares e os custos associados : financeiros e performance). Â 
 
-Toda vez que é estabelecida uma conexão, “por baixo dos panos” é disponibilizado um parâmetro de **CancellationToken (opcional – deve ser declarado)** em sua solicitação associado à esta conexão.
+Toda vez que Ã© estabelecida uma conexÃ£o, â€œpor baixo dos panosâ€ Ã© disponibilizado um parÃ¢metro de **CancellationToken (opcional â€“ deve ser declarado)** em sua solicitaÃ§Ã£o associado Ã  esta conexÃ£o.
 
-Quando ocorre uma “quebra” de conexão entre as partes é enviado uma solicitação de cancelamento (**IsCancellationRequested = true**) para que você tenha a **oportunidade de tomar uma ação** para não continuar a operação, uma vez que a outra parte não tem mais interesse e nem ira receber o resultado da operação.
+Quando ocorre uma â€œquebraâ€ de conexÃ£o entre as partes Ã© enviado uma solicitaÃ§Ã£o de cancelamento (**IsCancellationRequested = true**) para que vocÃª tenha a **oportunidade de tomar uma aÃ§Ã£o** para nÃ£o continuar a operaÃ§Ã£o, uma vez que a outra parte nÃ£o tem mais interesse e nem ira receber o resultado da operaÃ§Ã£o.
 
-> Dica : Sempre **declarar e propagar** o **CancellationToken** para as **chamadas subjacentes**, oferecendo a **oportunidade** as demais dependências de tomar uma ação para não continuar a operação o mais **breve possível**.
+> Dica : Sempre **declarar e propagar** o **CancellationToken** para as **chamadas subjacentes**, oferecendo a **oportunidade** as demais dependÃªncias de tomar uma aÃ§Ã£o para nÃ£o continuar a operaÃ§Ã£o o mais **breve possÃ­vel**.
 
-O .NET já fornece diversos métodos associados a cada recurso que já estão preparados para cancelar a operação caso recebam uma notificação de cancelamento.
+O .NET jÃ¡ fornece diversos mÃ©todos associados a cada recurso que jÃ¡ estÃ£o preparados para cancelar a operaÃ§Ã£o caso recebam uma notificaÃ§Ã£o de cancelamento.
 
-**_Lembre-se: A solicitação de cancelamento refere-se sempre a operações e não a objetos, então o fato de seu recurso(objeto) de api ou tarefa/função(objeto) ser ou não “Async” é irrelevante!_**
+**_Lembre-se: A solicitaÃ§Ã£o de cancelamento refere-se sempre a operaÃ§Ãµes e nÃ£o a objetos, entÃ£o o fato de seu recurso(objeto) de api ou tarefa/funÃ§Ã£o(objeto) ser ou nÃ£o â€œAsyncâ€ Ã© irrelevante!_**
 
-**_ATENÇÃO:_** _Normalmente os métodos associados a cada recurso que aceitam o cancelamento esperam uma_ **_operação assíncrona_** _criando esta relação com “Async/await”, então ao executar_ **_uma operação assíncrona sobre uma operação síncrona_**_, embora seja possível, deve ser_ **_feita com muito critério!_**
-
-* * *
-
-**Exemplo: Acessando outra dependência de api (Tarefa não cancelável) e sem token:**
-
-_Para testar use a_ **_aplicação “CancellationTokenApiSample”_** _e chame o ‘Endpoint’_ **_“Call/HelloWord”_** _, em seguida_ **_execute um refresh no browser; esta ação interrompe a conexão e ativa a solicitação de cancelamento_**_._
-
-Neste exemplo é feito uma chamada a outro “Endpoint” (que demora 10 segundos para recuperar a informação) . Como não tem a declaração de cancelamento e a dependência também **não é uma tarefa cancelável** a execução continua **até o final na api e na dependência sem ser interrompida.** (Veja os tempos)
+**_ATENÃ‡ÃƒO:_** _Normalmente os mÃ©todos associados a cada recurso que aceitam o cancelamento esperam uma_ **_operaÃ§Ã£o assÃ­ncrona_** _criando esta relaÃ§Ã£o com â€œAsync/awaitâ€, entÃ£o ao executar_ **_uma operaÃ§Ã£o assÃ­ncrona sobre uma operaÃ§Ã£o sÃ­ncrona_**_, embora seja possÃ­vel, deve ser_ **_feita com muito critÃ©rio!_**
 
 * * *
 
-**Exemplo: Acessando outra dependência de api (Tarefa não cancelável) e com CancellationToken:**
+**Exemplo: Acessando outra dependÃªncia de api (Tarefa nÃ£o cancelÃ¡vel) e sem token:**
 
-_Para testar use a_ **_aplicação “CancellationTokenApiSample”_** _e chame o ‘Endpoint’_ **_ “CallCT /HelloWord’_** _em seguida_ **_execute um refresh no browser;_**
+_Para testar use a_ **_aplicaÃ§Ã£o â€œCancellationTokenApiSampleâ€_** _e chame o â€˜Endpointâ€™_ **_â€œCall/HelloWordâ€_** _, em seguida_ **_execute um refresh no browser; esta aÃ§Ã£o interrompe a conexÃ£o e ativa a solicitaÃ§Ã£o de cancelamento_**_._
 
-Como tem a declaração de cancelamento  e a dependência **não é uma tarefa cancelável** a execução **continua até o final na dependência** sendo **interrompida na api**. (Veja os tempos)
-
-* * *
-
-**Exemplo: Acessando outra dependência de api (Tarefa cancelável) e com CancellationToken:**
-
-_Para testar use a_ **_aplicação “CancellationTokenApiSample”_** _e chame o ‘Endpoint’_ **_“CallCT /_**  **_HelloWordCancelation”_** _em seguida_ **_execute um refresh no browser;_**
-
-Como tem a declaração de cancelamento  e a dependência **é uma tarefa cancelável** a execução é **interrompida na api e na dependência.** (Veja os tempos)
+Neste exemplo Ã© feito uma chamada a outro â€œEndpointâ€ (que demora 10 segundos para recuperar a informaÃ§Ã£o) . Como nÃ£o tem a declaraÃ§Ã£o de cancelamento e a dependÃªncia tambÃ©m **nÃ£o Ã© uma tarefa cancelÃ¡vel** a execuÃ§Ã£o continua **atÃ© o final na api e na dependÃªncia sem ser interrompida.** (Veja os tempos)
 
 * * *
 
-**Exemplo: Acessando um banco de dados (Tarefa não cancelável) e sem CancellationToken:**
+**Exemplo: Acessando outra dependÃªncia de api (Tarefa nÃ£o cancelÃ¡vel) e com CancellationToken:**
 
-_Para testar use a_ **_aplicação “CancellationTokenApiSample”_** _e chame o ‘Endpoint’_ **_“Call/OpenDb”_** _em seguida_ **_execute um refresh no browser;_**
+_Para testar use a_ **_aplicaÃ§Ã£o â€œCancellationTokenApiSampleâ€_** _e chame o â€˜Endpointâ€™_ **_Â â€œCallCT /HelloWordâ€™_** _em seguida_ **_execute um refresh no browser;_**
 
-Neste exemplo e feito um acesso ao um banco de dados abrindo e fechando a conexão (Para simular um atraso, a conexão aponta para um endereço “errado” para tentar 6 vezes).  Quando ocorre o a solicitação de cancelamento a **consulta ao banco continua** .(veja o tempo)
+Como tem a declaraÃ§Ã£o de cancelamentoÂ  e a dependÃªncia **nÃ£o Ã© uma tarefa cancelÃ¡vel** a execuÃ§Ã£o **continua atÃ© o final na dependÃªncia** sendo **interrompida na api**. (Veja os tempos)
 
 * * *
 
-**Exemplo: Acessando um banco de dados (Tarefa cancelável) e com CancellationToken:**
+**Exemplo: Acessando outra dependÃªncia de api (Tarefa cancelÃ¡vel) e com CancellationToken:**
 
-_Para testar use a_ **_aplicação “CancellationTokenApiSample”_** _e chame o ‘Endpoint’_ **_“CallCT/OpenDb”_** _em seguida_ **_execute um refresh no browser;_**
+_Para testar use a_ **_aplicaÃ§Ã£o â€œCancellationTokenApiSampleâ€_** _e chame o â€˜Endpointâ€™_ **_â€œCallCT /_**  **_HelloWordCancelationâ€_** _em seguida_ **_execute um refresh no browser;_**
 
-Neste exemplo e feito um acesso ao um banco de dados abrindo e fechando a conexão. Quando ocorre o a solicitação de cancelamento a **consulta ao banco é interrompida** .(veja o tempo)
+Como tem a declaraÃ§Ã£o de cancelamentoÂ  e a dependÃªncia **Ã© uma tarefa cancelÃ¡vel** a execuÃ§Ã£o Ã© **interrompida na api e na dependÃªncia.** (Veja os tempos)
 
-Tornando uma Tarefa/Função com temporização “Cancelável”
+* * *
+
+**Exemplo: Acessando um banco de dados (Tarefa nÃ£o cancelÃ¡vel) e sem CancellationToken:**
+
+_Para testar use a_ **_aplicaÃ§Ã£o â€œCancellationTokenApiSampleâ€_** _e chame o â€˜Endpointâ€™_ **_â€œCall/OpenDbâ€_** _em seguida_ **_execute um refresh no browser;_**
+
+Neste exemplo e feito um acesso ao um banco de dados abrindo e fechando a conexÃ£o (Para simular um atraso, a conexÃ£o aponta para um endereÃ§o â€œerradoâ€ para tentar 6 vezes). Â Quando ocorre o a solicitaÃ§Ã£o de cancelamento a **consulta ao banco continua** .(veja o tempo)
+
+* * *
+
+**Exemplo: Acessando um banco de dados (Tarefa cancelÃ¡vel) e com CancellationToken:**
+
+_Para testar use a_ **_aplicaÃ§Ã£o â€œCancellationTokenApiSampleâ€_** _e chame o â€˜Endpointâ€™_ **_â€œCallCT/OpenDbâ€_** _em seguida_ **_execute um refresh no browser;_**
+
+Neste exemplo e feito um acesso ao um banco de dados abrindo e fechando a conexÃ£o. Quando ocorre o a solicitaÃ§Ã£o de cancelamento a **consulta ao banco Ã© interrompida** .(veja o tempo)
+
+Tornando uma Tarefa/FunÃ§Ã£o com temporizaÃ§Ã£o â€œCancelÃ¡velâ€
 --------------------------------------------------------
 
-Nos exemplos anteriores é feito chamadas a dois “Endpoint” diferentes
+Nos exemplos anteriores Ã© feito chamadas a dois â€œEndpointâ€ diferentes
 
 * **/HelloWord**
     
 * **/HelloWordCancelation**
     
 
-O “Endpoint” **HelloWord é uma tarefa não cancelável**
+O â€œEndpointâ€ **HelloWord Ã© uma tarefa nÃ£o cancelÃ¡vel**
 
-O “Endpoint” **HelloWordCancelation é uma tarefa cancelável.**
+O â€œEndpointâ€ **HelloWordCancelation Ã© uma tarefa cancelÃ¡vel.**
 
-> **Atenção: não é porque recebe o parâmetro CancellationToken se torna cancelável!**
+> **AtenÃ§Ã£o: nÃ£o Ã© porque recebe o parÃ¢metro CancellationToken se torna cancelÃ¡vel!**
 
-Comparando os dois códigos, você pode notar que existem algumas diferenças:
+Comparando os dois cÃ³digos, vocÃª pode notar que existem algumas diferenÃ§as:
 
-* Recebe um parâmetro **CancellationToken** (Propagação! lembra da dica no início?)
+* Recebe um parÃ¢metro **CancellationToken** (PropagaÃ§Ã£o! lembra da dica no inÃ­cio?)
     
-* Aproveita o Token para executar o Delay:  ‘**token.WaitHandle.WaitOne**(10000);’ (Vamos falar disso agora)
+* Aproveita o Token para executar o Delay: Â â€˜**token.WaitHandle.WaitOne**(10000);â€™ (Vamos falar disso agora)
     
 
-Lembra da definição de uma operação cancelável ? Uma ajudinha :
+Lembra da definiÃ§Ã£o de uma operaÃ§Ã£o cancelÃ¡vel ? Uma ajudinha :
 
-> **operações canceláveis** São tarefa que escolhem uma **estratégia de como encerrar e como responder** a uma solicitação de cancelamento. Normalmente, executam alguma limpeza necessária e respondem o mais **breve possível**.
+> **operaÃ§Ãµes cancelÃ¡veis** SÃ£o tarefa que escolhem uma **estratÃ©gia de como encerrar e como responder** a uma solicitaÃ§Ã£o de cancelamento. Normalmente, executam alguma limpeza necessÃ¡ria e respondem o mais **breve possÃ­vel**.
 
-O código original usa o comando **‘Thread.Sleep(10000)’**. Este comando interrompe a execução Thread por um tempo determinado para simular um trabalhado demorado/ custoso de um recurso. 
+O cÃ³digo original usa o comando **â€˜Thread.Sleep(10000)â€™**. Este comando interrompe a execuÃ§Ã£o Thread por um tempo determinado para simular um trabalhado demorado/ custoso de um recurso.Â 
 
-Queremos que  isso aconteça, porém somente quando **não houver** uma solicitação de cancelamento, então precisamos de uma **outra estratégia** para fazer isso e responder o **mais breve possível** quando ocorre o cancelamento.
+Queremos queÂ  isso aconteÃ§a, porÃ©m somente quando **nÃ£o houver** uma solicitaÃ§Ã£o de cancelamento, entÃ£o precisamos de uma **outra estratÃ©gia** para fazer isso e responder o **mais breve possÃ­vel** quando ocorre o cancelamento.
 
-A propriedade ‘**WaitHandle’** disponibiliza o manipulador do token que é responsável por controlar a sincronização entre threads e aplicar os sinalizadores (semáforos) para que isso aconteça.
+A propriedade â€˜**WaitHandleâ€™** disponibiliza o manipulador do token que Ã© responsÃ¡vel por controlar a sincronizaÃ§Ã£o entre threads e aplicar os sinalizadores (semÃ¡foros) para que isso aconteÃ§a.
 
-O Legal da  propriedade ‘**WaitHandle’** é que possui alguns métodos para interromper a execução de forma temporizada. Quando ocorre uma solicitação de cancelamento esta **temporização é interrompida** e “voilà”!  temos agora uma estratégia eficiente e rápida!
+O Legal da Â propriedade â€˜**WaitHandleâ€™** Ã© que possui alguns mÃ©todos para interromper a execuÃ§Ã£o de forma temporizada. Quando ocorre uma solicitaÃ§Ã£o de cancelamento esta **temporizaÃ§Ã£o Ã© interrompida** e â€œvoilÃ â€!Â  temos agora uma estratÃ©gia eficiente e rÃ¡pida!
 
-> Dica : Utilize sempre que possível **WaitHandle**  e seus métodos como  sinalizadores de tempo(WaitOne ou seus semelhantes).  Quando ocorre uma solicitação de cancelamento seus métodos também são avisados e **interrompem** a espera/ação programada
+> Dica : Utilize sempre que possÃ­vel **WaitHandle**Â  e seus mÃ©todos comoÂ  sinalizadores de tempo(WaitOne ou seus semelhantes).Â  Quando ocorre uma solicitaÃ§Ã£o de cancelamento seus mÃ©todos tambÃ©m sÃ£o avisados e **interrompem** a espera/aÃ§Ã£o programada
 
-Tornando uma tarefa em background “Cancelável” em um host web
+Tornando uma tarefa em background â€œCancelÃ¡velâ€ em um host web
 -------------------------------------------------------------
 
-Uma tarefa em “background” normalmente é iniciada junto com aplicação e permanece ativa durante o ciclo de vida dela, sobre um “loop” baseado em uma condição/regra qualquer.
+Uma tarefa em â€œbackgroundâ€ normalmente Ã© iniciada junto com aplicaÃ§Ã£o e permanece ativa durante o ciclo de vida dela, sobre um â€œloopâ€ baseado em uma condiÃ§Ã£o/regra qualquer.
 
-Em cenários atuais, onde “container é vida” e os conceitos de “**HPA’  (“upscale” / ”downscale”) são necessários para fazem uso consciente de recursos** as tarefas em “background” precisam **saber a hora de parar de forma controlada** evitando “travamentos” e/ou **inconsistências** , fazendo as limpezas necessárias durante este processo quando necessário. Isso é válido mesmo sem o uso de “container”.
+Em cenÃ¡rios atuais, onde â€œcontainer Ã© vidaâ€ e os conceitos de â€œ**HPAâ€™ Â (â€œupscaleâ€ / â€downscaleâ€) sÃ£o necessÃ¡rios para fazem uso consciente de recursos** as tarefas em â€œbackgroundâ€ precisam **saber a hora de parar de forma controlada** evitando â€œtravamentosâ€ e/ou **inconsistÃªncias** , fazendo as limpezas necessÃ¡rias durante este processo quando necessÃ¡rio. Isso Ã© vÃ¡lido mesmo sem o uso de â€œcontainerâ€.
 
-O uso de **CancellationToken** é um bom “aliado” para garantir uma saída deste “loop” de uma forma controlada (“**Graceful Shutdown”**).
+O uso de **CancellationToken** Ã© um bom â€œaliadoâ€ para garantir uma saÃ­da deste â€œloopâ€ de uma forma controlada (â€œ**Graceful Shutdownâ€**).
 
 * * *
 
-**Exemplo: Tarefa em background (Tarefa cancelável) e com CancellationToken:**
+**Exemplo: Tarefa em background (Tarefa cancelÃ¡vel) e com CancellationToken:**
 
-_Para testar use a_ **_aplicação “CancellationTokenBackGroudServiceSample”_** _e acompanhe o log por cerca de 30 segundos e depois chame o ‘Endpoint’ “_**_StopApplication_**_” ;_ **_esta ação envia uma solicitação para finalizar a aplicação que por sua vez dispara uma solicitação de cancelamento._**
+_Para testar use a_ **_aplicaÃ§Ã£o â€œCancellationTokenBackGroudServiceSampleâ€_** _e acompanhe o log por cerca de 30 segundos e depois chame o â€˜Endpointâ€™ â€œ_**_StopApplication_**_â€ ;_ **_esta aÃ§Ã£o envia uma solicitaÃ§Ã£o para finalizar a aplicaÃ§Ã£o que por sua vez dispara uma solicitaÃ§Ã£o de cancelamento._**
 
-Analisando o código, você poderá ver um loop temporizado pela classe ‘**PeriodicTimer’**. Antes de executar a ação desejada é feita uma validação de negócio ‘AnyRule’ que quando atendida executa uma **tarefa cancelável** ‘DoWork’.  Os resultados podem ser vistos e avaliados pelo log. Quando chega a solicitação de cancelamento o "loop" **encerra de forma controlada (Graceful Shutdown).**
+Analisando o cÃ³digo, vocÃª poderÃ¡ ver um loop temporizado pela classe â€˜**PeriodicTimerâ€™**. Antes de executar a aÃ§Ã£o desejada Ã© feita uma validaÃ§Ã£o de negÃ³cio â€˜AnyRuleâ€™ que quando atendida executa uma **tarefa cancelÃ¡vel** â€˜DoWorkâ€™.Â  Os resultados podem ser vistos e avaliados pelo log. Quando chega a solicitaÃ§Ã£o de cancelamento o "loop" **encerra de forma controlada (Graceful Shutdown).**
 
-Uma boa prática observada ,como já dito, é a **propagação** do **CancellationToken** para as dependências subjacentes , que no nosso caso é o método ‘DoWork’.
+Uma boa prÃ¡tica observada ,como jÃ¡ dito, Ã© a **propagaÃ§Ã£o** do **CancellationToken** para as dependÃªncias subjacentes , que no nosso caso Ã© o mÃ©todo â€˜DoWorkâ€™.
 
-Outra observação é o uso do comando ‘**ThrowIfCancellationRequested()**’ que notifica ao chamador uma solicitação de cancelamento abortando (neste exemplo faz sentido) a execução.
+Outra observaÃ§Ã£o Ã© o uso do comando â€˜**ThrowIfCancellationRequested()**â€™ que notifica ao chamador uma solicitaÃ§Ã£o de cancelamento abortando (neste exemplo faz sentido) a execuÃ§Ã£o.
 
 > **ThrowIfCancellationRequested** : Gera um **OperationCanceledException** se esse token tiver tido o cancelamento solicitado.
 
 
-Assumindo o controle do “Cancelamento”
+Assumindo o controle do â€œCancelamentoâ€
 --------------------------------------
 
-Sempre temos disponível pela Infraestrutura do .NET o **CancellationToken** de **encerramento da aplicação**, porém  outras  necessidades aparecem em cenários que queremos cancelar alguma tarefa com **base em um evento, estado ou regra de negócio**. Sendo assim precisamos **assumir o controle**! Nesta hora entra em cena outro componente:
+Sempre temos disponÃ­vel pela Infraestrutura do .NET o **CancellationToken** de **encerramento da aplicaÃ§Ã£o**, porÃ©mÂ  outras Â necessidades aparecem em cenÃ¡rios que queremos cancelar alguma tarefa com **base em um evento, estado ou regra de negÃ³cio**. Sendo assim precisamos **assumir o controle**! Nesta hora entra em cena outro componente:
 
-> **CancellationTokenSource**:  É uma classe desenhada para ser uma fonte de notificação de cancelamento controlada pela aplicação.
+> **CancellationTokenSource**:Â  Ã‰ uma classe desenhada para ser uma fonte de notificaÃ§Ã£o de cancelamento controlada pela aplicaÃ§Ã£o.
 
-Adivinha qual é a principal propriedade desta classe? O **CancellationToken!**
+Adivinha qual Ã© a principal propriedade desta classe? O **CancellationToken!**
 
-_Nota: Esta classe implementa a interface_ **_IDisposable_** _então lembre-se de utilizar o método_ **_Dispose()_** _quando não for mais necessário ou_  _encapsular sua utilização em um_ **_bloco de “using”._**
+_Nota: Esta classe implementa a interface_ **_IDisposable_** _entÃ£o lembre-se de utilizar o mÃ©todo_ **_Dispose()_** _quando nÃ£o for mais necessÃ¡rio ou_  _encapsular sua utilizaÃ§Ã£o em um_ **_bloco de â€œusingâ€._**
 
-O **CancellationTokenSource** possui  alguns métodos para atender ao seu propósito e vamos abordar alguns deles (Existem vários outros métodos, abordaremos outros adiante)
+O **CancellationTokenSource** possui  alguns mÃ©todos para atender ao seu propÃ³sito e vamos abordar alguns deles (Existem vÃ¡rios outros mÃ©todos, abordaremos outros adiante)
 
 * **Cancel**
     
@@ -181,117 +181,117 @@ O **CancellationTokenSource** possui  alguns métodos para atender ao seu propósi
     
 * * *
 
-### O método Cancel
+### O mÃ©todo Cancel
 
-**O que faz o método Cancel?** Comunica uma solicitação de cancelamento, em outras palavras, tornam a propriedade **IsCancellationRequested = true!**
+**O que faz o mÃ©todo Cancel?** Comunica uma solicitaÃ§Ã£o de cancelamento, em outras palavras, tornam a propriedade **IsCancellationRequested = true!**
 
 
-**Exemplo: CancellationTokenSource – Método Cancel**
+**Exemplo: CancellationTokenSource â€“ MÃ©todo Cancel**
 
-_Para testar use a_ **_aplicação “CancellationTokenCancelConsole”_** _, siga as instruções que apareceram no console e acompanhe o log._
+_Para testar use a_ **_aplicaÃ§Ã£o â€œCancellationTokenCancelConsoleâ€_** _, siga as instruÃ§Ãµes que apareceram no console e acompanhe o log._
 
-Neste exemplo temos um serviço em background que inicia duas tarefas assíncronas:
+Neste exemplo temos um serviÃ§o em background que inicia duas tarefas assÃ­ncronas:
 
-·        **TaskUI:** Responsável  pela interação do console para enviar um comando de processar mensagens  ou uma solicitação de cancelamento e encerrar a aplicação.
+Â·Â Â Â Â Â Â Â  **TaskUI:** ResponsÃ¡velÂ  pela interaÃ§Ã£o do console para enviar um comando de processar mensagensÂ  ou uma solicitaÃ§Ã£o de cancelamento e encerrar a aplicaÃ§Ã£o.
 
-·        **TaskProcess:** Responsável  por processar uma mensagem.
+Â·Â Â Â Â Â Â Â  **TaskProcess:** ResponsÃ¡velÂ  por processar uma mensagem.
 
-Analisando o código , você pode observar o uso do **CancellationTokenSource** com o método **Cancel**  na ‘**TaskUI**’ para enviar uma solicitação de cancelamento para Task ‘**TaskProcess**’; **Propagação**!
+Analisando o cÃ³digo , vocÃª pode observar o uso do **CancellationTokenSource** com o mÃ©todo **Cancel**Â  na â€˜**TaskUI**â€™ para enviar uma solicitaÃ§Ã£o de cancelamento para Task â€˜**TaskProcess**â€™; **PropagaÃ§Ã£o**!
 
-Nota : Existe um problema nesta abordagem; Quando ocorre um **Ctrl-C** a Task ‘**TaskProcess**’ **não é encerrada automaticamente** pois ele apenas observa o **CancellationTokenSource** sendo  preciso  enviar outro **Cancel** durante o método **‘StopAsync’** e aguarda o término da Task para termos uma saída controlada (**Graceful Shutdown**) e um **fluxo correto de sua lógica**(executar o comando 'applicationLifetime.StopApplication()' após o loop).
-
-* * *
-
-### O método CancelAfter
-
-**O que faz o método CancelAfter(TimeSpan)/ CancelAfter(Int32)?** Comunica uma solicitação de cancelamento **após o número especificado de tempo**.
-
-Um exemplo prático para este método é o uso em regras de **TIMEOUT** para  execuções de **qualquer atividade.**
-
-**Exemplo: CancellationTokenSource – Método CancelAfter**
-
-_Para testar use a_ **_aplicação “CancellationTokenCancelAfterConsole”_** _siga as instruções que apareceram no console e acompanhe o log._
-
-Neste exemplo temos um serviço em background que inicia uma tarefa assíncrona que chama outra **tarefa cancelável** para processar a mensagem com um “**flag**” para ficar em espera  **além do tempo máximo definido** ,demostrando um controle de timeout (após um **tempo pré-definido** a tarefa é **cancelada)**.
-
-Observe que o parâmetro de **CancellationToken** é um **CancellationTokenSource** que foi usado o método **CancelAfter(10000)** antes da chamada.
+Nota : Existe um problema nesta abordagem; Quando ocorre um **Ctrl-C** a Task â€˜**TaskProcess**â€™ **nÃ£o Ã© encerrada automaticamente** pois ele apenas observa o **CancellationTokenSource** sendo  preciso  enviar outro **Cancel** durante o mÃ©todo **â€˜StopAsyncâ€™** e aguarda o tÃ©rmino da Task para termos uma saÃ­da controlada (**Graceful Shutdown**) e um **fluxo correto de sua lÃ³gica**(executar o comando 'applicationLifetime.StopApplication()' apÃ³s o loop).
 
 * * *
 
-### O método Register
+### O mÃ©todo CancelAfter
 
-**O que faz o método Register()?** Registra um **‘action’** que será chamado quando este **CancellationToken** for cancelado.
+**O que faz o mÃ©todo CancelAfter(TimeSpan)/ CancelAfter(Int32)?** Comunica uma solicitaÃ§Ã£o de cancelamento **apÃ³s o nÃºmero especificado de tempo**.
 
-_Se este token já estiver no estado cancelado, a action será executado imediatamente e de_ **_forma síncrona_**_. Qualquer exceção gerada pelo action será propagada a partir desta chamada de método._
+Um exemplo prÃ¡tico para este mÃ©todo Ã© o uso em regras de **TIMEOUT** para  execuÃ§Ãµes de **qualquer atividade.**
 
-**Exemplo: CancellationTokenSource – Método Register**
+**Exemplo: CancellationTokenSource â€“ MÃ©todo CancelAfter**
 
-_Para testar use a_ **_aplicação “CancellationTokenRegisterConsole”_** _siga as instruções que apareceram no console e acompanhe o log._
+_Para testar use a_ **_aplicaÃ§Ã£o â€œCancellationTokenCancelAfterConsoleâ€_** _siga as instruÃ§Ãµes que apareceram no console e acompanhe o log._
 
-Neste exemplo temos um serviço em background que inicia uma tarefa assíncrona que processa a mensagem. Antes de iniciar o “loop”  é feito um **registro de uma ‘action’ para ser executada  quando ocorrer o cancelamento.**
+Neste exemplo temos um serviÃ§o em background que inicia uma tarefa assÃ­ncrona que chama outra **tarefa cancelÃ¡vel** para processar a mensagem com um â€œ**flag**â€ para ficar em espera Â **alÃ©m do tempo mÃ¡ximo definido** ,demostrando um controle de timeout (apÃ³s um **tempo prÃ©-definido** a tarefa Ã© **cancelada)**.
 
-Esta ‘action’ executa o fim da aplicação que por sua vez envia uma solicitação de cancelamento e encerra o “loop”.
+Observe que o parÃ¢metro de **CancellationToken** Ã© um **CancellationTokenSource** que foi usado o mÃ©todo **CancelAfter(10000)** antes da chamada.
 
-Tornando uma tarefa “Cancelável” associada a uma ou mais regras de negócio
+* * *
+
+### O mÃ©todo Register
+
+**O que faz o mÃ©todo Register()?** Registra um **â€˜actionâ€™** que serÃ¡ chamado quando esteÂ **CancellationToken**Â for cancelado.
+
+_Se este token jÃ¡ estiver no estado cancelado, a action serÃ¡ executado imediatamente e de_ **_forma sÃ­ncrona_**_.Â Qualquer exceÃ§Ã£o gerada pelo action serÃ¡ propagada a partir desta chamada de mÃ©todo._
+
+**Exemplo: CancellationTokenSource â€“ MÃ©todo Register**
+
+_Para testar use a_ **_aplicaÃ§Ã£o â€œCancellationTokenRegisterConsoleâ€_** _siga as instruÃ§Ãµes que apareceram no console e acompanhe o log._
+
+Neste exemplo temos um serviÃ§o em background que inicia uma tarefa assÃ­ncrona que processa a mensagem. Antes de iniciar o â€œloopâ€ Â Ã© feito um **registro de uma â€˜actionâ€™ para ser executada Â quando ocorrer o cancelamento.**
+
+Esta â€˜actionâ€™ executa o fim da aplicaÃ§Ã£o que por sua vez envia uma solicitaÃ§Ã£o de cancelamento e encerra o â€œloopâ€.
+
+Tornando uma tarefa â€œCancelÃ¡velâ€ associada a uma ou mais regras de negÃ³cio
 --------------------------------------------------------------------------
 
-Nem tudo é tão simples e muita das vezes precisamos implementar regras mais complexas que requer **mais de uma única fonte de cancelamento**. Vamos a um cenário real:
+Nem tudo Ã© tÃ£o simples e muita das vezes precisamos implementar regras mais complexas que requer **mais de uma Ãºnica fonte de cancelamento**. Vamos a um cenÃ¡rio real:
 
-Você possui um método que já recebe um **CancellationToken** vindo de um “request” . Agora imagina que este método além de interromper quando a conexão é perdida interrompa também quando ultrapasse um tempo limite ou ainda melhor, quando uma regra de negócio não seja atendida durante seu processamento, o que acontecer primeiro.Nesta hora entra em cena outra classe :
+VocÃª possui um mÃ©todo que jÃ¡ recebe um **CancellationToken** vindo de um â€œrequestâ€ . Agora imagina que este mÃ©todo alÃ©m de interromper quando a conexÃ£o Ã© perdida interrompa tambÃ©m quando ultrapasse um tempo limite ou ainda melhor, quando uma regra de negÃ³cio nÃ£o seja atendida durante seu processamento, o que acontecer primeiro.Nesta hora entra em cena outra classe :
 
-> **CreateLinkedToken:**  É uma classe desenhada para ser uma **fonte de notificação de cancelamento que unifica vários tokens de cancelamento em uma única solicitação de cancelamento** .
+> **CreateLinkedToken:** Â Ã‰ uma classe desenhada para ser uma **fonte de notificaÃ§Ã£o de cancelamento que unifica vÃ¡rios tokens de cancelamento em uma Ãºnica solicitaÃ§Ã£o de cancelamento** .
 
-**_Nota1:_** _Esta classe implementa a interface_ **_IDisposable_** _então lembre-se de utilizar o método_ **_Dispose()_**  quando não for mais necessário ou  encapsular sua utilização em um **_bloco de “using”._**
+**_Nota1:_** _Esta classe implementa a interface_ **_IDisposable_** _entÃ£o lembre-se de utilizar o mÃ©todo_ **_Dispose()_**  quando nÃ£o for mais necessÃ¡rio ou  encapsular sua utilizaÃ§Ã£o em um **_bloco de â€œusingâ€._**
 
-**_Nota2:_** Esta classe **simplifica a codificação** (basta verificar a propriedade **IsCancellationRequested** independente que que a originou), porém **continua sendo possível saber qual token de cancelamento foi a origem** (caso seja preciso tomar ações diferentes para tokens distintos).
+**_Nota2:_** Esta classe **simplifica a codificaÃ§Ã£o** (basta verificar a propriedade **IsCancellationRequested** independente que que a originou), porÃ©m **continua sendo possÃ­vel saber qual token de cancelamento foi a origem** (caso seja preciso tomar aÃ§Ãµes diferentes para tokens distintos).
 
 * * *
 
-**Exemplo: Acessando um Endpoint(Tarefa cancelável com CreateLinkedToken):**
+**Exemplo: Acessando um Endpoint(Tarefa cancelÃ¡vel com CreateLinkedToken):**
 
-_Para testar use a_ **_aplicação “CancellationTokenApiCreateLinkedToken”_** _e chame o ‘Endpoint’ **“Call/HelloWordWithTimeout?timeout=true”** e aguarde o resultado (será um timeout com status 499). Em seguida chame o mesmo ‘Endpoint’ e **_execute um refresh no browser; esta ação interrompe a conexão e ativa a solicitação de cancelamento.** (Acompanhe log)
+_Para testar use a_ **_aplicaÃ§Ã£o â€œCancellationTokenApiCreateLinkedTokenâ€_** _e chame o â€˜Endpointâ€™ **â€œCall/HelloWordWithTimeout?timeout=trueâ€** e aguarde o resultado (serÃ¡ um timeout com status 499). Em seguida chame o mesmo â€˜Endpointâ€™Â e **_execute um refresh no browser; esta aÃ§Ã£o interrompe a conexÃ£o e ativa a solicitaÃ§Ã£o de cancelamento.** (Acompanhe log)
 
-Neste exemplo é feito uma chamada a outro “Endpoint” (que demora 10 segundos para recuperar a informação ) . antes da execução  é criando um **CancellationTokenSource**  e um **CreateLinkedTokenSource**  utilizando o **CancellationToken do request e o CancellationTokenSource.  **
+Neste exemplo Ã© feito uma chamada a outro â€œEndpointâ€ (que demora 10 segundos para recuperar a informaÃ§Ã£o ) . antes da execuÃ§Ã£oÂ  Ã© criando um **CancellationTokenSource**Â  e um **CreateLinkedTokenSource**Â  utilizando o **CancellationToken do request e o CancellationTokenSource. Â **
 
-É  simulado uma **espera maior de que o tempo máximo definido** para demostrar o  timeout.
+Ã‰  simulado uma **espera maior de que o tempo mÃ¡ximo definido** para demostrar oÂ  timeout.
 
-Observe que o código faz isso utilizando **CreateLinkedTokenSource!**  Isso significa que caso **ocorra um cancelamento pelo cliente ou um timeout** a tarefa será **cancelada**!
+Observe que o cÃ³digo faz isso utilizando **CreateLinkedTokenSource!**Â  Isso significa que caso **ocorra um cancelamento pelo cliente ou um timeout** a tarefa serÃ¡ **cancelada**!
 
-Tornando os retornos de um API “Cancelável” rastreáveis
+Tornando os retornos de um API â€œCancelÃ¡velâ€ rastreÃ¡veis
 -------------------------------------------------------
 
-Para finalizar vou falar de outro **aspecto fundamental** **e muito relevante** que **propositalmente** não citei no início do artigo
+Para finalizar vou falar de outro **aspecto fundamental** **e muito relevante** que **propositalmente** nÃ£o citei no inÃ­cio do artigo
 
 > Dica: Mantenha sempre os retornos coerentes de sua API quando ocorre um cancelamento por parte do cliente.
 
-**Mas porque isso é importante? Foi dito que quando ocorreu cancelamento o cliente não tem mais interesse , e não recebe o resultado...**
+**Mas porque isso Ã© importante? Foi dito que quando ocorreu cancelamento o cliente nÃ£o tem mais interesse , e nÃ£o recebe o resultado...**
 
-**Não é apenas cancelar e se preocupar em performance e custo é fazer bom uso de recursos existentes também!** vamos detalhar isso melhor criando um cenário:
+**NÃ£o Ã© apenas cancelar e se preocupar em performance e custo Ã© fazer bom uso de recursos existentes tambÃ©m!** vamos detalhar isso melhor criando um cenÃ¡rio:
 
-_"Você trabalha em uma empresa de comércio eletrônico/banco que possui um gateway interno para fazer a comunicações entre as diversas apis. Além de rotear estas comunicações é gerado um log de infraestrutura com os tempos e status de cada requisição para uma análise pelo time de produtos e estratégia da empresa."_
+_"VocÃª trabalha em uma empresa de comÃ©rcio eletrÃ´nico/banco que possui um gateway interno para fazer a comunicaÃ§Ãµes entre as diversas apis. AlÃ©m de rotear estas comunicaÃ§Ãµes Ã© gerado um log de infraestrutura com os tempos e status de cada requisiÃ§Ã£o para uma anÃ¡lise pelo time de produtos e estratÃ©gia da empresa."_
 
-Quando ocorre um cancelamento por parte do cliente **se você não escolher um status correto** as **_métricas de status ficarão “poluídas”**,  podendo induzir a análise não precisa e **"enganosa"** mesmo que **funcionalmente não tenha erros!.**
+Quando ocorre um cancelamento por parte do cliente **se vocÃª nÃ£o escolher um status correto** as **_mÃ©tricas de status ficarÃ£o â€œpoluÃ­dasâ€**,  podendo induzir a anÃ¡lise nÃ£o precisa e **"enganosa"** mesmo que **funcionalmente nÃ£o tenha erros!.**
 
 * * *
 
-**Exemplo: Acessando um Endpoint(Tarefa cancelável com CreateLinkedToken):**
+**Exemplo: Acessando um Endpoint(Tarefa cancelÃ¡vel com CreateLinkedToken):**
 
-_A aplicação_ **_“CancellationTokenApiCreateLinkedToken”_** faz este tratamento retornando um status **não padrão** (499 – Mesmo do nginx) .
+_A aplicaÃ§Ã£o_ **_â€œCancellationTokenApiCreateLinkedTokenâ€_** faz este tratamento retornando um status **nÃ£o padrÃ£o** (499 â€“ Mesmo do nginx) .
 
-Analisando o código, você vai observar que quando ocorre o cancelamento o status de retorno é 499 para cancelamento, 200 para tudo ok . 204 para timeout , 500 para um erro e outro status caso Endpoint "tenha um novo status não mapeado - falha de comunicação/documentação entre times."
+Analisando o cÃ³digo, vocÃª vai observar que quando ocorre o cancelamento o status de retorno Ã© 499 para cancelamento, 200 para tudo ok . 204 para timeout , 500 para um erro e outro status caso Endpoint "tenha um novo status nÃ£o mapeado - falha de comunicaÃ§Ã£o/documentaÃ§Ã£o entre times."
 
-**_Nota :_** _Para verificar que isso acontece de fato é necessário colocar um_ **_breakpoint_** _e acompanhar a execução._
+**_Nota :_** _Para verificar que isso acontece de fato Ã© necessÃ¡rio colocar um_ **_breakpoint_** _e acompanhar a execuÃ§Ã£o._
 
-Conclusão
+ConclusÃ£o
 ---------
 
-**CancellationToken** é um  instrumento **poderoso** para otimizar **o uso de recursos concorrentes** , tornando sua aplicação muito mais **resiliente e rápida, aproveita corretamente os recursos de Infraestrutura/Midllewares e com custos menores.**
+**CancellationToken** Ã© um  instrumento **poderoso** para otimizar **o uso de recursos concorrentes** , tornando sua aplicaÃ§Ã£o muito mais **resiliente e rÃ¡pida, aproveita corretamente os recursos de Infraestrutura/Midllewares e com custos menores.**
 
-Existem muitos outros cenários (e métodos) que podem ser explorados , mas tornaria bem mais extenso este artigo que o desejado.
+Existem muitos outros cenÃ¡rios (e mÃ©todos) que podem ser explorados , mas tornaria bem mais extenso este artigo que o desejado.
 
-Espero que com este “overview” e com os códigos disponibilizados no projeto exemplo,  você possa aproveitar melhor o **CancellationToken!**
+Espero que com este â€œoverviewâ€ e com os cÃ³digos disponibilizados no projeto exemplo, Â vocÃª possa aproveitar melhor o **CancellationToken!**
 
-Referências
+ReferÃªncias
 -----------
 
 **CancellationToken:**
