@@ -1,3 +1,7 @@
+Artigo Linkedin:
+
+https://www.linkedin.com/pulse/cancellationtoken-exemplos-e-casos-de-uso-cerqueira-wlref/
+
 # CancellationToken - O que você precisa e deveria saber antes de usar
 
 
